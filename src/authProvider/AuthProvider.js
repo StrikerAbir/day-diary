@@ -12,35 +12,42 @@ import {
   signOut,
   updateProfile,
 } from "firebase/auth";
+import { useDispatch, useSelector } from "react-redux";
+import { currentUser, startLoading } from "../Redux/features/userSlice";
 
 export const AuthContext = createContext();
 const auth = getAuth(app);
 
 const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  // const [user, setUser] = useState(null);
+  // const [loading, setLoading] = useState(true);
+
+  const { user, isLoading } = useSelector(state => state.userR)
+  const dispatch=useDispatch()
 
   // create user with email and password
   const createUser = (email, password) => {
-    setLoading(true);
+    dispatch(startLoading())
     return createUserWithEmailAndPassword(auth, email, password);
   };
   // login with email and password
   const signIn = (email, password) => {
-    setLoading(true);
+    dispatch(startLoading());
     return signInWithEmailAndPassword(auth, email, password);
   };
   const updateUserProfile = (profile) => {
+    dispatch(startLoading());
     return updateProfile(auth.currentUser, profile);
   };
   // reset password
   const resetPassword = (email) => {
+    dispatch(startLoading());
     return sendPasswordResetEmail(auth, email);
   };
   // login with google
   const googleProvider = new GoogleAuthProvider();
   const googleProviderLogin = () => {
-    setLoading(true);
+    dispatch(startLoading());
     return signInWithPopup(auth, googleProvider);
   };
   // logout
@@ -50,17 +57,16 @@ const AuthProvider = ({ children }) => {
 
   // observer
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      setLoading(false);
+    const unsubscribe = onAuthStateChanged(auth, (presentUser) => {
+      dispatch(currentUser(presentUser))
+      dispatch(startLoading());
     });
     return () => unsubscribe();
   }, []);
 
   const authInfo = {
     user,
-    loading,
-    setLoading,
+
     createUser,
     signIn,
     updateUserProfile,
