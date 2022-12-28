@@ -10,8 +10,10 @@ const Header = () => {
     };
   const menuOptions = (
     <>
-          <li className="font-semibold ">
-              <Link className="lg:text-white">Home</Link>
+      <li className="font-semibold ">
+        <Link to="/" className="lg:text-white">
+          Home
+        </Link>
       </li>
     </>
   );
