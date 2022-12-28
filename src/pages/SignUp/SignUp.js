@@ -5,20 +5,21 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import GoogleLogin from "../../shared/GoogleLogin";
 import bg from '../../assets/images/background1.jpg'
-// import useToken from "../../hooks/useToken";
+import useToken from "../../hooks/useToken";
+
 
 const SignUp = () => {
   const { createUser, updateUserProfile } = useContext(AuthContext);
   const [signUpError, setSignUpError] = useState(null);
 
-  // const [createdUserEmail, setCreatedUserEmail] = useState(null);
-  // // custom hook
-  // const [token] = useToken(createdUserEmail);
+  const [createdUserEmail, setCreatedUserEmail] = useState(null);
+  // custom hook
+  const [token] = useToken(createdUserEmail);
   const navigate = useNavigate();
 
-  // if (token) {
-  //   navigate("/");
-  // }
+  if (token) {
+    navigate("/");
+  }
   const {
     register,
     formState: { errors },
@@ -37,11 +38,10 @@ const SignUp = () => {
         // console.log(userInfo);
         updateUserProfile(userInfo)
           .then(() => {
-            // saveUser(data.name, data.email, data.user_type);
+            saveUser(data.name, data.email);
           })
           .catch((err) => console.error(err));
         toast.success("User created successfully..");
-        navigate("/");
       })
       .catch((err) => {
         console.error(err);
@@ -50,20 +50,20 @@ const SignUp = () => {
       });
   };
 
-  // const saveUser = (name, email, user_type) => {
-  //   const user = { name, email, user_type };
-  //   fetch(" https://sb-furniture-server-side.vercel.app/users", {
-  //     method: "POST",
-  //     headers: {
-  //       "content-type": "application/json",
-  //     },
-  //     body: JSON.stringify(user),
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setCreatedUserEmail(email);
-  //     });
-  // };
+  const saveUser = (name, email) => {
+    const user = { name, email };
+    fetch(" http://localhost:1000/users", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(user),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setCreatedUserEmail(email);
+      });
+  };
 
   return (
     <div className="relative">
