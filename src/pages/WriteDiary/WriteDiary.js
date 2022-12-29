@@ -19,6 +19,10 @@ const WriteDiary = () => {
 
       const handleSaveStory = (data) => {
         const date = format(new Date(), "PPPP");
+        // current time in milisec
+        const now = new Date();
+        const timeMili = now.getTime();
+
         const image = data.img[0];
         const formData = new FormData();
         formData.append("image", image);
@@ -38,6 +42,7 @@ const WriteDiary = () => {
                 writer_name: user?.displayName,
                 writer_email: user?.email,
                 writer_story: data.description,
+                post_time:timeMili
               };
               console.log(myStory);
 
