@@ -126,7 +126,7 @@ const WriteDiary = () => {
                     className="textarea textarea-bordered h-44 bg-opacity-70"
                     placeholder="Write here..."
                     {...register("description", {
-                      required: "description is required.",
+                      required: "Story is required.",
                     })}
                   ></textarea>
                   {errors.description && (

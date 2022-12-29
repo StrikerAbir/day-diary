@@ -7,15 +7,16 @@ import { PhotoProvider, PhotoView } from "react-photo-view";
 import dot from '../../assets/images/loading-dot.gif'
 import { toast } from "react-hot-toast";
 import ConfirmationModal from "../../shared/ConfirmationModal";
+import UpdateModal from "../../shared/UpdateModal";
 const MyDiary = () => {
     const { isLoading, stories, error } = useSelector((state) => state.storiesR);
-    const [deleting, setDeleting] = useState(null);
+    const [singleStory, setSingleStory] = useState(null);
     const closeModal = () => {
-      setDeleting(null);
+      setSingleStory(null);
     };
 
   const dispatch = useDispatch();
-  console.log(deleting);
+
   useEffect(() => {
     dispatch(fetchStories());
   }, []);
@@ -96,11 +97,16 @@ const MyDiary = () => {
                                 className="dropdown-content menu p-2 shadow bg-base-100 bg-opacity-10 rounded-box w-24"
                               >
                                 <li>
-                                  <a>Edit</a>
+                                  <label
+                                    onClick={() => setSingleStory(story)}
+                                    htmlFor="UpdateModal"
+                                  >
+                                    Update
+                                  </label>
                                 </li>
                                 <li>
                                   <label
-                                    onClick={() => setDeleting(story._id)}
+                                    onClick={() => setSingleStory(story)}
                                     htmlFor="ConfirmationModal"
                                   >
                                     Delete
@@ -120,15 +126,21 @@ const MyDiary = () => {
           </div>
         </div>
       </div>
-      {deleting && (
+      {singleStory && (
         <ConfirmationModal
           title={`Are you sure want to delete?`}
           message={`If you delete this story. It cannot be recoverable.`}
           closeModal={closeModal}
           successButton="Delete"
           successAction={handleDelete}
-          modalData={deleting}
+          modalData={singleStory}
         ></ConfirmationModal>
+      )}
+      {singleStory && (
+        <UpdateModal
+          closeModal={closeModal}
+          modalData={singleStory}
+        ></UpdateModal>
       )}
     </div>
   );

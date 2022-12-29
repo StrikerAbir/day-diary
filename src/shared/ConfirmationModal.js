@@ -8,7 +8,7 @@ const ConfirmationModal = ({
   successAction,
   successButton,
 }) => {
-  console.log(modalData);
+  // console.log(modalData);
   return (
     <div>
       {/* Put this part before </body> tag */}
@@ -22,7 +22,7 @@ const ConfirmationModal = ({
               Cancel
             </button>
             <label
-              onClick={() => successAction(modalData)}
+              onClick={() => successAction(modalData._id)}
               htmlFor="ConfirmationModal"
               className="btn btn-outline btn-error"
             >
