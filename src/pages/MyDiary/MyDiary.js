@@ -5,13 +5,32 @@ import { fetchStories } from "../../Redux/features/storySlice";
 import loading from "../../assets/images/circle-loading-lines.gif";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import dot from '../../assets/images/loading-dot.gif'
+import { toast } from "react-hot-toast";
 const MyDiary = () => {
   const { isLoading, stories, error } = useSelector((state) => state.storiesR);
   const dispatch = useDispatch();
-  console.log(stories);
+//   console.log(stories);
   useEffect(() => {
     dispatch(fetchStories());
   }, []);
+    
+    const handleDelete=(id) => {
+        fetch(`http://localhost:1000/stories?id=${id}`, {
+          method: "DELETE",
+          headers: {
+            "content-type": "application/json",
+            authorization: `bearer ${localStorage.getItem("accessToken")}`,
+            },
+        })
+            .then(res => res.json()).then(data => {
+                if (data.deletedCount > 0) {
+                    dispatch(fetchStories());
+                    toast.success('Story Deleted..')
+                } else {
+                   toast.error("Failed to Delete.."); 
+            }
+        })
+    }
   return (
     <div>
       <div className="relative">
@@ -70,7 +89,7 @@ const MyDiary = () => {
                                   <a>Edit</a>
                                 </li>
                                 <li>
-                                  <a>Delete</a>
+                                  <button onClick={()=>handleDelete(story._id)}>Delete</button>
                                 </li>
                               </ul>
                             </div>
