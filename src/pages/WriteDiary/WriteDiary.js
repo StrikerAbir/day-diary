@@ -62,7 +62,8 @@ const WriteDiary = () => {
                   console.log(result);
                   toast.success("Story added successfully.");
                   navigate("/myDiary");
-                });
+                })
+                .catch((err) => toast.error(err.message))
             }
           });
       };

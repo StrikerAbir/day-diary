@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import bg from "../../assets/images/background3.jpg";
 import { fetchStories } from "../../Redux/features/storySlice";
@@ -6,16 +6,23 @@ import loading from "../../assets/images/circle-loading-lines.gif";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import dot from '../../assets/images/loading-dot.gif'
 import { toast } from "react-hot-toast";
+import ConfirmationModal from "../../shared/ConfirmationModal";
 const MyDiary = () => {
-  const { isLoading, stories, error } = useSelector((state) => state.storiesR);
+    const { isLoading, stories, error } = useSelector((state) => state.storiesR);
+    const [deleting, setDeleting] = useState(null);
+    const closeModal = () => {
+      setDeleting(null);
+    };
+
   const dispatch = useDispatch();
-//   console.log(stories);
+  console.log(deleting);
   useEffect(() => {
     dispatch(fetchStories());
   }, []);
     
-    const handleDelete=(id) => {
-        fetch(`http://localhost:1000/stories?id=${id}`, {
+    const handleDelete = (sid) => {
+        // console.log(sid);
+        fetch(`http://localhost:1000/stories?id=${sid}`, {
           method: "DELETE",
           headers: {
             "content-type": "application/json",
@@ -78,7 +85,10 @@ const MyDiary = () => {
                           </h3>
                           <div>
                             <div className="dropdown dropdown-end">
-                              <label tabIndex={0} className="hover:cursor-pointer">
+                              <label
+                                tabIndex={0}
+                                className="hover:cursor-pointer"
+                              >
                                 <img className="w-10" src={dot} alt="" />
                               </label>
                               <ul
@@ -89,7 +99,12 @@ const MyDiary = () => {
                                   <a>Edit</a>
                                 </li>
                                 <li>
-                                  <button onClick={()=>handleDelete(story._id)}>Delete</button>
+                                  <label
+                                    onClick={() => setDeleting(story._id)}
+                                    htmlFor="ConfirmationModal"
+                                  >
+                                    Delete
+                                  </label>
                                 </li>
                               </ul>
                             </div>
@@ -105,6 +120,16 @@ const MyDiary = () => {
           </div>
         </div>
       </div>
+      {deleting && (
+        <ConfirmationModal
+          title={`Are you sure want to delete?`}
+          message={`If you delete this story. It cannot be recoverable.`}
+          closeModal={closeModal}
+          successButton="Delete"
+          successAction={handleDelete}
+          modalData={deleting}
+        ></ConfirmationModal>
+      )}
     </div>
   );
 };
