@@ -1,18 +1,28 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link} from "react-router-dom";
 import React, { useContext } from "react";
 import { AuthContext } from "../authProvider/AuthProvider";
 import { FaUser } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { setUserEmail } from "../Redux/features/userSlice";
 
 const Header = () => {
-    const { user,logOut } = useContext(AuthContext)
+    const { user, logOut } = useContext(AuthContext)
+    const dispatch=useDispatch()
     const handleLogOut = () => {
+    dispatch(setUserEmail(''))
       logOut();
     };
   const menuOptions = (
     <>
       <li className="font-semibold ">
         <Link to="/" className="lg:text-white">
-          Home
+          HOME
+        </Link>
+        <Link to="/writeDiary" className="lg:text-white">
+          WRITE DIARY
+        </Link>
+        <Link to="/myDiary" className="lg:text-white">
+          MY DIARY
         </Link>
       </li>
     </>
@@ -59,11 +69,11 @@ const Header = () => {
         <div className="navbar-end">
           {user?.uid ? (
             <>
-              <div className="font-semibold mr-3">
+              <div className="hidden lg:block font-semibold mr-3">
                 <p>{user?.displayName}</p>
               </div>
               <Link
-                className="btn text-bold bg-red-400 text-white rounded-xs border-none"
+                className="btn btn-sm text-bold bg-red-400 text-white rounded-xs border-none"
                 onClick={handleLogOut}
                 to="/login"
               >
@@ -73,7 +83,7 @@ const Header = () => {
           ) : (
             <Link
               to="/login"
-              className="btn text-bold bg-red-400 text-white rounded-xs border-none"
+              className="btn btn-sm text-bold bg-red-400 text-white rounded-xs border-none"
             >
               Login
             </Link>

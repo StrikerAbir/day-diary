@@ -6,6 +6,8 @@ import { AuthContext } from "../../authProvider/AuthProvider";
 import GoogleLogin from "../../shared/GoogleLogin";
 import bg from '../../assets/images/background1.jpg'
 import useToken from "../../hooks/useToken";
+import { useDispatch, useSelector } from "react-redux";
+import { setUserEmail } from "../../Redux/features/userSlice";
 
 const Login = () => {
   const { signIn, resetPassword } = useContext(AuthContext);
@@ -21,8 +23,10 @@ const Login = () => {
   const navigate = useNavigate();
   const from = location.state?.from?.pathname || "/";
 
-  const [loginUserEmail, setLoginUserEmail] = useState("");
-   const [token] = useToken(loginUserEmail);
+  // const [loginUserEmail, setLoginUserEmail] = useState("");
+  const { userEmail } = useSelector(state => state.userR)
+  const dispatch=useDispatch()
+   const [token] = useToken(userEmail);
 
    if (token) {
      navigate(from, { replace: true });
@@ -36,7 +40,7 @@ const Login = () => {
       .then((result) => {
         const user = result.user;
         console.log(user);
-        setLoginUserEmail(user.email);
+        dispatch(setUserEmail(user.email));
         toast.success("Successfully login..");
       })
       .catch((err) => {
@@ -45,7 +49,7 @@ const Login = () => {
         toast.error(err.message);
       });
   };
-
+console.log(userEmail);
   const handleResetPassword = (data) => {
     console.log(data.email);
     resetPassword(data.email)

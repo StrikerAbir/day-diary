@@ -1,16 +1,20 @@
 import React, { useContext, useState } from "react";
 import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../authProvider/AuthProvider";
 import useToken from "../hooks/useToken";
+import { setUserEmail } from "../Redux/features/userSlice";
 
 const GoogleLogin = () => {
   const { googleProviderLogin } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
   const from = location?.state?.from?.pathname || "/";
-  const [loginUserEmail, setLoginUserEmail] = useState("");
-  const [token] = useToken(loginUserEmail);
+  // const [loginUserEmail, setLoginUserEmail] = useState("");
+  const { userEmail } = useSelector((state) => state.userR);
+  const dispatch = useDispatch();
+  const [token] = useToken(userEmail);
 
   if (token) {
     navigate(from, { replace: true });
@@ -40,7 +44,7 @@ const GoogleLogin = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        setLoginUserEmail(email);
+        dispatch(setUserEmail(email));
       });
   };
   return (

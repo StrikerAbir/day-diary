@@ -4,7 +4,8 @@ export const userSlice = createSlice({
     name: "users",
     initialState: {
         user: null,
-        isLoading: true
+        isLoading: true,
+        userEmail:''
     },
     reducers: {
         currentUser: (state,action) => {
@@ -15,10 +16,14 @@ export const userSlice = createSlice({
         },
         startLoading: state => {
             state.isLoading = true;
+        },
+        setUserEmail: (state,action) => {
+            state.userEmail=action.payload
         }
     }
     
 })
 
-export const { currentUser, stopLoading,startLoading } = userSlice.actions
+export const { currentUser, stopLoading, startLoading, setUserEmail } =
+  userSlice.actions;
 export default userSlice.reducer

@@ -13,7 +13,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { useDispatch, useSelector } from "react-redux";
-import { currentUser, startLoading } from "../Redux/features/userSlice";
+import { currentUser, startLoading, stopLoading } from "../Redux/features/userSlice";
 
 export const AuthContext = createContext();
 const auth = getAuth(app);
@@ -59,14 +59,14 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (presentUser) => {
       dispatch(currentUser(presentUser))
-      dispatch(startLoading());
+      dispatch(stopLoading());
     });
     return () => unsubscribe();
   }, []);
 
   const authInfo = {
     user,
-
+    isLoading,
     createUser,
     signIn,
     updateUserProfile,
