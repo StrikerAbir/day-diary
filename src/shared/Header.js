@@ -57,7 +57,7 @@ const Header = () => {
           </div>
           <Link to="/">
             <div className="flex flex-col items-center">
-              <h2 className="font-extrabold text-4xl font-Passions text-primary">
+              <h2 className="font-extrabold text-3xl font-Passions text-white">
                 Day Diary
               </h2>
             </div>
