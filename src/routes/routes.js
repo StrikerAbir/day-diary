@@ -5,6 +5,7 @@ import Login from "../pages/Login/Login";
 import MyDiary from "../pages/MyDiary/MyDiary";
 import SignUp from "../pages/SignUp/SignUp";
 import WriteDiary from "../pages/WriteDiary/WriteDiary";
+import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
   {
@@ -25,11 +26,19 @@ export const router = createBrowserRouter([
       },
       {
         path: "/writeDiary",
-        element: <WriteDiary></WriteDiary>,
+        element: (
+          <PrivateRoute>
+            <WriteDiary></WriteDiary>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/myDiary",
-        element: <MyDiary></MyDiary>,
+        element: (
+          <PrivateRoute>
+            <MyDiary></MyDiary>
+          </PrivateRoute>
+        ),
       },
     ],
   },

@@ -7,7 +7,7 @@ const MyDiary = () => {
           <div className="fixed w-full">
             <img className="h-screen w-full" src={bg} alt="" />
           </div>
-          <div className="absolute">
+          <div className="mid mt-20">
             <h3 className="lg:block hidden text-5xl font-bold text-center text-primary fontPoppins">
               WELCOME TO{" "}
             </h3>
