@@ -34,14 +34,17 @@ const UpdateModal = ({ closeModal, modalData }) => {
           console.log(myStory);
 
           // update story info to the database.
-          fetch(`http://localhost:1000/updateStory/${modalData._id}`, {
-            method: "PATCH",
-            headers: {
-              "content-type": "application/json",
-              authorization: `bearer ${localStorage.getItem("accessToken")}`,
-            },
-            body: JSON.stringify(myStory),
-          })
+          fetch(
+            `https://day-diary-server.vercel.app/updateStory/${modalData._id}`,
+            {
+              method: "PATCH",
+              headers: {
+                "content-type": "application/json",
+                authorization: `bearer ${localStorage.getItem("accessToken")}`,
+              },
+              body: JSON.stringify(myStory),
+            }
+          )
             .then((res) => res.json())
             .then((result) => {
               //   console.log(result);

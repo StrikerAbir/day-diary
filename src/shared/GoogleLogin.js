@@ -35,11 +35,10 @@ const GoogleLogin = () => {
   };
   const saveUser = (name, email) => {
     const user = { name, email };
-    fetch(" http://localhost:1000/users", {
+    fetch(" https://day-diary-server.vercel.app/users", {
       method: "POST",
       headers: {
         "content-type": "application/json",
-        
       },
       body: JSON.stringify(user),
     })

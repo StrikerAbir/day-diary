@@ -4,19 +4,18 @@ import { AuthContext } from "../../authProvider/AuthProvider";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import GoogleLogin from "../../shared/GoogleLogin";
-import bg from '../../assets/images/background1.jpg'
+import bg from "../../assets/images/background1.jpg";
 import useToken from "../../hooks/useToken";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserEmail } from "../../Redux/features/userSlice";
-
 
 const SignUp = () => {
   const { createUser, updateUserProfile } = useContext(AuthContext);
   const [signUpError, setSignUpError] = useState(null);
 
   // const [createdUserEmail, setCreatedUserEmail] = useState(null);
-    const { userEmail } = useSelector((state) => state.userR);
-    const dispatch = useDispatch();
+  const { userEmail } = useSelector((state) => state.userR);
+  const dispatch = useDispatch();
   // custom hook
   const [token] = useToken(userEmail);
   const navigate = useNavigate();
@@ -56,7 +55,7 @@ const SignUp = () => {
 
   const saveUser = (name, email) => {
     const user = { name, email };
-    fetch(" http://localhost:1000/users", {
+    fetch(" https://day-diary-server.vercel.app/users", {
       method: "POST",
       headers: {
         "content-type": "application/json",

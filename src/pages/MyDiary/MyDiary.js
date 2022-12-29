@@ -4,41 +4,42 @@ import bg from "../../assets/images/background3.jpg";
 import { fetchStories } from "../../Redux/features/storySlice";
 import loading from "../../assets/images/circle-loading-lines.gif";
 import { PhotoProvider, PhotoView } from "react-photo-view";
-import dot from '../../assets/images/loading-dot.gif'
+import dot from "../../assets/images/loading-dot.gif";
 import { toast } from "react-hot-toast";
 import ConfirmationModal from "../../shared/ConfirmationModal";
 import UpdateModal from "../../shared/UpdateModal";
 const MyDiary = () => {
-    const { isLoading, stories, error } = useSelector((state) => state.storiesR);
-    const [singleStory, setSingleStory] = useState(null);
-    const closeModal = () => {
-      setSingleStory(null);
-    };
+  const { isLoading, stories, error } = useSelector((state) => state.storiesR);
+  const [singleStory, setSingleStory] = useState(null);
+  const closeModal = () => {
+    setSingleStory(null);
+  };
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchStories());
   }, []);
-    
-    const handleDelete = (sid) => {
-        // console.log(sid);
-        fetch(`http://localhost:1000/stories?id=${sid}`, {
-          method: "DELETE",
-          headers: {
-            "content-type": "application/json",
-            authorization: `bearer ${localStorage.getItem("accessToken")}`,
-            },
-        })
-            .then(res => res.json()).then(data => {
-                if (data.deletedCount > 0) {
-                    dispatch(fetchStories());
-                    toast.success('Story Deleted..')
-                } else {
-                   toast.error("Failed to Delete.."); 
-            }
-        })
-    }
+
+  const handleDelete = (sid) => {
+    // console.log(sid);
+    fetch(`https://day-diary-server.vercel.app/stories?id=${sid}`, {
+      method: "DELETE",
+      headers: {
+        "content-type": "application/json",
+        authorization: `bearer ${localStorage.getItem("accessToken")}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.deletedCount > 0) {
+          dispatch(fetchStories());
+          toast.success("Story Deleted..");
+        } else {
+          toast.error("Failed to Delete..");
+        }
+      });
+  };
   return (
     <div>
       <div className="relative">
