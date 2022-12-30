@@ -36,7 +36,6 @@ const AuthProvider = ({ children }) => {
     return signInWithEmailAndPassword(auth, email, password);
   };
   const updateUserProfile = (profile) => {
-    dispatch(startLoading());
     return updateProfile(auth.currentUser, profile);
   };
   // reset password
@@ -62,8 +61,9 @@ const AuthProvider = ({ children }) => {
       dispatch(stopLoading());
     });
     return () => unsubscribe();
-  }, []);
+  }, [dispatch]);
 
+  console.log(user,isLoading);
   const authInfo = {
     user,
     isLoading,

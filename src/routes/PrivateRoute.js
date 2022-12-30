@@ -3,9 +3,10 @@ import { Navigate, useLocation } from "react-router-dom";
 import { AuthContext } from "../authProvider/AuthProvider";
 import loading from '../assets/images/circle-loading-lines.gif'
 import bg from "../assets/images/background2.jpg";
+import { useSelector } from "react-redux";
 const PrivateRoute = ({ children }) => {
   const location = useLocation();
-  const { user, isLoading } = useContext(AuthContext);
+   const { user, isLoading } = useSelector((state) => state.userR);
 
   if (isLoading) {
     return (
@@ -14,7 +15,7 @@ const PrivateRoute = ({ children }) => {
           <div>
             <img className="h-screen w-full" src={bg} alt="" />
           </div>
-          <div className="flex justify-center items-center">
+          <div className="centered">
             <img className="lg:w-56" src={loading} alt="" />
           </div>
         </div>
