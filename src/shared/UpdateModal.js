@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { useDispatch } from "react-redux";
+import { AuthContext } from "../authProvider/AuthProvider";
 import { fetchStories } from "../Redux/features/storySlice";
 
 const UpdateModal = ({ closeModal, modalData }) => {
+    const { user } = useContext(AuthContext);
   const {
     register,
     formState: { errors },
@@ -48,7 +50,7 @@ const UpdateModal = ({ closeModal, modalData }) => {
             .then((res) => res.json())
             .then((result) => {
               //   console.log(result);
-              dispatch(fetchStories());
+              dispatch(fetchStories(user.email));
               closeModal();
               toast.success("Story updated successfully.");
             })

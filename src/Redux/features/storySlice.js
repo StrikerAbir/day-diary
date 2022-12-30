@@ -2,8 +2,9 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 export const fetchStories = createAsyncThunk(
   "stories/fetchStories",
-  async () => {
-    const res = await axios.get("https://day-diary-server.vercel.app/stories", {
+    async (email) => {
+      console.log(email);
+    const res = await axios.get(`https://day-diary-server.vercel.app/stories?mail=${email}`, {
       headers: {
         "content-type": "application/json",
         authorization: `bearer ${localStorage.getItem("accessToken")}`,
@@ -34,6 +35,12 @@ export const storySlice = createSlice({
       state.error = action.error.message;
     });
   },
+  reducers: {
+    emptyArray: (state) => {
+          state.stories = [];
+    },
+  },
 });
-
+export const { emptyArray } =
+  storySlice.actions;
 export default storySlice.reducer;

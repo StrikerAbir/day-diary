@@ -14,8 +14,8 @@ const PrivateRoute = ({ children }) => {
           <div>
             <img className="h-screen w-full" src={bg} alt="" />
           </div>
-          <div className="centered">
-            <img src={loading} alt="" />
+          <div className="flex justify-center items-center">
+            <img className="lg:w-56" src={loading} alt="" />
           </div>
         </div>
       </div>

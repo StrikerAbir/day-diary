@@ -1,15 +1,16 @@
 import { Link} from "react-router-dom";
 import React, { useContext } from "react";
 import { AuthContext } from "../authProvider/AuthProvider";
-import { FaUser } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { setUserEmail } from "../Redux/features/userSlice";
+import { emptyArray } from "../Redux/features/storySlice";
 
 const Header = () => {
     const { user, logOut } = useContext(AuthContext)
     const dispatch=useDispatch()
     const handleLogOut = () => {
-    dispatch(setUserEmail(''))
+      dispatch(setUserEmail(''))
+      dispatch(emptyArray())
       logOut();
     };
   const menuOptions = (
